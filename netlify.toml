@@ -3,6 +3,11 @@
   publish = "out"
 
 [[redirects]]
+  from = "/playground"
+  to = "https://playgroundcv.netlify.app/"
+  status = 200
+
+[[redirects]]
   from = "/playground/*"
   to = "https://playgroundcv.netlify.app/:splat"
   status = 200
