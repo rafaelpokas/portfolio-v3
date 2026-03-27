@@ -1,1 +1,3 @@
-/* /index.html   200
+/playground    https://playgroundcv.netlify.app/    200!
+/playground/*  https://playgroundcv.netlify.app/:splat  200!
+/*             /index.html                           200
