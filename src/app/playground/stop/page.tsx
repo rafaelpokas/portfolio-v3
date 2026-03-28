@@ -191,27 +191,38 @@ export default function StopPage() {
   // Draw phase: idle → counting (5s pre-reveal) → revealed
   const [drawPhase, setDrawPhase] = useState<DrawPhase>("idle");
   const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS);
-  const [pendingLetter, setPendingLetter] = useState<string | null>(null);
 
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const gameTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Store pending letter + timer config in refs so the countdown effect
+  // doesn't need them in its dependency array (avoids re-running mid-countdown)
+  const pendingLetterRef = useRef<string | null>(null);
+  const timerEnabledRef = useRef(timerEnabled);
+  const timerDurationRef = useRef(timerDuration);
+  // Keep refs in sync with latest state values (after each render)
+  useEffect(() => { timerEnabledRef.current = timerEnabled; }, [timerEnabled]);
+  useEffect(() => { timerDurationRef.current = timerDuration; }, [timerDuration]);
 
   const availablePool = ALPHABET.filter(
     (l) => activeLetters.has(l) && !drawnLetters.includes(l)
   );
 
   // — Countdown before revealing letter —
-  // Note: drawnLetters is mutated in drawLetter(), NOT here, to avoid double-count.
+  // History is added HERE (after countdown) so the letter doesn't appear
+  // in the history panel before being revealed on screen.
   useEffect(() => {
     if (drawPhase !== "counting") return;
     countdownRef.current = setInterval(() => {
       setCountdown((c) => {
         if (c <= 1) {
           clearInterval(countdownRef.current!);
-          setCurrentLetter(pendingLetter);
+          const letter = pendingLetterRef.current;
+          setCurrentLetter(letter);
+          // Add to history only now — after the reveal
+          if (letter) setDrawnLetters((prev) => [letter, ...prev]);
           setDrawPhase("revealed");
-          if (timerEnabled) {
-            setTimeLeft(timerDuration);
+          if (timerEnabledRef.current) {
+            setTimeLeft(timerDurationRef.current);
             setTimerRunning(true);
           }
           return 0;
@@ -223,7 +234,7 @@ export default function StopPage() {
     return () => {
       if (countdownRef.current) clearInterval(countdownRef.current);
     };
-  }, [drawPhase, pendingLetter, timerEnabled, timerDuration]);
+  }, [drawPhase]); // refs handle the rest — no need to re-run on config changes
 
   // — Game timer countdown (runs only during "revealed" phase) —
   useEffect(() => {
@@ -247,9 +258,8 @@ export default function StopPage() {
     if (availablePool.length === 0 || drawPhase !== "idle") return;
     const idx = Math.floor(Math.random() * availablePool.length);
     const letter = availablePool[idx];
-    // Add to history HERE (single source of truth — effect should not also do this)
-    setDrawnLetters((prev) => [letter, ...prev]);
-    setPendingLetter(letter);
+    // Store in ref — history will be added AFTER countdown reveals the letter
+    pendingLetterRef.current = letter;
     setCountdown(COUNTDOWN_SECONDS);
     setDrawPhase("counting");
     setTimerRunning(false);
@@ -261,7 +271,7 @@ export default function StopPage() {
     if (gameTimerRef.current) clearInterval(gameTimerRef.current);
     setDrawnLetters([]);
     setCurrentLetter(null);
-    setPendingLetter(null);
+    pendingLetterRef.current = null;
     setDrawPhase("idle");
     setTimerRunning(false);
     setTimeLeft(0);
@@ -961,6 +971,8 @@ export default function StopPage() {
                       {/* Header row — theme names written horizontally at the top */}
                       {[...selectedThemes, { id: "total", name: "TOTAL" } as Theme].map((t, i) => {
                         const isTotal = t.id === "total";
+                        // Reduce font size proportionally as more themes are added
+                        const baseFontPt = selectedThemes.length <= 5 ? 8 : selectedThemes.length <= 7 ? 7 : 6;
                         return (
                           <div
                             key={`hdr-${t.id}`}
@@ -968,15 +980,16 @@ export default function StopPage() {
                               borderRight: i < selectedThemes.length ? "1pt solid #0a0a0a" : "none",
                               borderBottom: "1.5pt solid #0a0a0a",
                               backgroundColor: isTotal ? "#f0f0f0" : i % 2 === 0 ? "#fafafa" : "white",
-                              padding: "2.5mm 3mm",
-                              fontSize: isTotal ? "7pt" : "7.5pt",
+                              padding: "2mm 2.5mm",
+                              fontSize: isTotal ? "6.5pt" : `${baseFontPt}pt`,
                               fontWeight: 900,
                               textTransform: "uppercase" as const,
-                              letterSpacing: "0.04em",
+                              letterSpacing: "0.03em",
                               color: "#0a0a0a",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap" as const,
+                              // Allow wrapping so long names are fully visible
+                              wordBreak: "break-word" as const,
+                              hyphens: "auto" as const,
+                              lineHeight: 1.2,
                               textAlign: isTotal ? "center" as const : "left" as const,
                             }}
                           >
