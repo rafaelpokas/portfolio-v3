@@ -32,6 +32,13 @@ export default function Home() {
         <div className="font-display text-4xl md:text-6xl text-text-main">READY_</div>
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
           <BrutalistButton
+            href="/playground"
+            ariaLabel="Acessar o Playground interativo"
+            variant="outline"
+          >
+            Playground ↗
+          </BrutalistButton>
+          <BrutalistButton
             href="mailto:rafapokas@hotmail.com"
             ariaLabel="Enviar email para rafapokas@hotmail.com"
           >
