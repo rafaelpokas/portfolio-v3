@@ -1,1 +1,6 @@
-/* /index.html   200
+# Rotas Next.js static export — serve os HTML gerados diretamente
+# O Netlify serve /playground.html quando alguém acessa /playground
+# Não precisa de catch-all pois é static export com arquivos .html por rota
+
+# Fallback só para 404
+/*    /404.html   404
