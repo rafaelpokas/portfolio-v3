@@ -1,3 +1,25 @@
 [build]
   command = "npm run build"
   publish = "out"
+
+# Force no-cache on the playground index so CDN always serves the latest build
+[[headers]]
+  for = "/playground/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/playground/bingo/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/playground/stop/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Long cache for static assets (JS, CSS, fonts — hashed filenames)
+[[headers]]
+  for = "/_next/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
