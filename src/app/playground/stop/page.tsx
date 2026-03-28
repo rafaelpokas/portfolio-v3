@@ -201,19 +201,15 @@ export default function StopPage() {
   );
 
   // — Countdown before revealing letter —
+  // Note: drawnLetters is mutated in drawLetter(), NOT here, to avoid double-count.
   useEffect(() => {
     if (drawPhase !== "counting") return;
     countdownRef.current = setInterval(() => {
       setCountdown((c) => {
         if (c <= 1) {
           clearInterval(countdownRef.current!);
-          // Reveal the letter
           setCurrentLetter(pendingLetter);
-          if (pendingLetter) {
-            setDrawnLetters((prev) => [pendingLetter, ...prev]);
-          }
           setDrawPhase("revealed");
-          // Start game timer if enabled
           if (timerEnabled) {
             setTimeLeft(timerDuration);
             setTimerRunning(true);
@@ -251,10 +247,11 @@ export default function StopPage() {
     if (availablePool.length === 0 || drawPhase !== "idle") return;
     const idx = Math.floor(Math.random() * availablePool.length);
     const letter = availablePool[idx];
+    // Add to history HERE (single source of truth — effect should not also do this)
+    setDrawnLetters((prev) => [letter, ...prev]);
     setPendingLetter(letter);
-    setCountdown(COUNTDOWN_SECONDS); // reset countdown before entering counting phase
+    setCountdown(COUNTDOWN_SECONDS);
     setDrawPhase("counting");
-    // Stop any running timer
     setTimerRunning(false);
     if (gameTimerRef.current) clearInterval(gameTimerRef.current);
   };
@@ -925,66 +922,80 @@ export default function StopPage() {
                       width: "297mm",
                       height: "210mm",
                       boxSizing: "border-box",
-                      padding: "10mm 12mm 8mm",
+                      padding: "8mm 10mm 6mm",
                       display: "flex",
                       flexDirection: "column",
                       fontFamily: "Arial, sans-serif",
                     }}
                   >
-                    {/* Title */}
+                    {/* Title row */}
                     <div
                       style={{
-                        marginBottom: "4mm",
+                        marginBottom: "3mm",
                         borderBottom: "2pt solid #0a0a0a",
-                        paddingBottom: "3mm",
+                        paddingBottom: "2mm",
+                        display: "flex",
+                        alignItems: "baseline",
+                        justifyContent: "space-between",
                       }}
                     >
-                      <div style={{ fontSize: "22pt", fontWeight: 900, letterSpacing: "0.08em", textTransform: "uppercase", lineHeight: 1.1 }}>
+                      <div style={{ fontSize: "20pt", fontWeight: 900, letterSpacing: "0.08em", textTransform: "uppercase", lineHeight: 1.1 }}>
                         {gameName}
                       </div>
-                      <div style={{ fontSize: "7pt", color: "#64748b", letterSpacing: "0.15em", textTransform: "uppercase", marginTop: "1mm" }}>
-                        {selectedThemes.length} temas · quem responder todos primeiro fala STOP · igual = 5pts · único = 10pts
+                      <div style={{ fontSize: "6.5pt", color: "#64748b", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                        igual = 5pts · único = 10pts
                       </div>
                     </div>
 
-                    {/* Column headers */}
+                    {/* The grid: header row (theme names) + body (writing space) */}
                     <div
                       style={{
                         flex: 1,
                         display: "grid",
-                        gridTemplateColumns: `repeat(${selectedThemes.length + 1}, 1fr)`,
-                        borderLeft: "1pt solid #0a0a0a",
-                        borderTop: "1pt solid #0a0a0a",
+                        gridTemplateColumns: `repeat(${selectedThemes.length}, 1fr) 0.6fr`,
+                        gridTemplateRows: "auto 1fr",
+                        border: "1pt solid #0a0a0a",
                         overflow: "hidden",
                       }}
                     >
+                      {/* Header row — theme names written horizontally at the top */}
                       {[...selectedThemes, { id: "total", name: "TOTAL" } as Theme].map((t, i) => {
                         const isTotal = t.id === "total";
                         return (
                           <div
-                            key={t.id}
+                            key={`hdr-${t.id}`}
                             style={{
-                              borderRight: "1pt solid #0a0a0a",
-                              borderBottom: "1pt solid #0a0a0a",
-                              backgroundColor: isTotal ? "#0a0a0a" : i % 2 === 0 ? "#f8f8f8" : "white",
-                              display: "flex",
-                              alignItems: "flex-end",
-                              justifyContent: "center",
-                              padding: "3mm 2mm",
-                              writingMode: "vertical-rl" as const,
-                              textOrientation: "mixed" as const,
-                              transform: "rotate(180deg)",
-                              fontSize: "8pt",
+                              borderRight: i < selectedThemes.length ? "1pt solid #0a0a0a" : "none",
+                              borderBottom: "1.5pt solid #0a0a0a",
+                              backgroundColor: isTotal ? "#f0f0f0" : i % 2 === 0 ? "#fafafa" : "white",
+                              padding: "2.5mm 3mm",
+                              fontSize: isTotal ? "7pt" : "7.5pt",
                               fontWeight: 900,
                               textTransform: "uppercase" as const,
                               letterSpacing: "0.04em",
-                              color: isTotal ? "white" : "#0a0a0a",
-                              minHeight: "55mm",
+                              color: "#0a0a0a",
                               overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap" as const,
+                              textAlign: isTotal ? "center" as const : "left" as const,
                             }}
                           >
                             {t.name}
                           </div>
+                        );
+                      })}
+
+                      {/* Body row — the writing area (empty, one tall row per column) */}
+                      {[...selectedThemes, { id: "total", name: "TOTAL" } as Theme].map((t, i) => {
+                        const isTotal = t.id === "total";
+                        return (
+                          <div
+                            key={`body-${t.id}`}
+                            style={{
+                              borderRight: i < selectedThemes.length ? "1pt solid #0a0a0a" : "none",
+                              backgroundColor: isTotal ? "#fafafa" : "white",
+                            }}
+                          />
                         );
                       })}
                     </div>
