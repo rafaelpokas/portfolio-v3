@@ -4,8 +4,10 @@ import StatsGrid from "@/components/ui/StatsGrid";
 import PhysicsSkills from "@/components/interactive/PhysicsSkills";
 import BadgeShowcase from "@/components/ui/BadgeShowcase";
 import CertTimeline from "@/components/interactive/CertTimeline";
+import CommetSection from "@/components/ui/CommetSection";
 import BrutalistButton from "@/components/ui/BrutalistButton";
 import WhatsAppFloat from "@/components/ui/WhatsAppFloat";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Home() {
   return (
@@ -22,6 +24,7 @@ export default function Home() {
 
       <main id="main-content">
         <Hero />
+        <CommetSection />
         <StatsGrid />
         <PhysicsSkills />
         <BadgeShowcase />
@@ -30,19 +33,20 @@ export default function Home() {
 
       <footer className="py-20 px-6 md:px-10 border-t border-border-subtle flex flex-col md:flex-row gap-10 justify-between items-start md:items-center bg-bg-surface">
         <div className="font-display text-4xl md:text-6xl text-text-main">READY_</div>
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6">
           <BrutalistButton
-            href="/playground"
-            ariaLabel="Acessar o Playground interativo"
-            variant="outline"
+            href="https://commet.pro"
+            target="_blank"
+            ariaLabel="Visitar o site da Commet"
           >
-            Playground ↗
+            Commet
+            <ArrowUpRight className="w-4 h-4 ml-1.5" aria-hidden="true" />
           </BrutalistButton>
           <BrutalistButton
-            href="mailto:rafapokas@hotmail.com"
-            ariaLabel="Enviar email para rafapokas@hotmail.com"
+            href="mailto:rafael@commet.pro"
+            ariaLabel="Enviar email para rafael@commet.pro"
           >
-            rafapokas@hotmail.com
+            rafael@commet.pro
           </BrutalistButton>
           <BrutalistButton
             href="https://linkedin.com/in/rafaelpokas"

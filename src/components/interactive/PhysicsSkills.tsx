@@ -10,7 +10,8 @@ const techStack = [
   "Scrum", "Wireframing", "Prototyping", "UX Research", "PIE Framework",
 ];
 
-const colors = ["#CCFF00", "#F4F4F5", "#A1A1AA"];
+const ACCENT = "#FA7412"; // Commet brand orange
+const colors = [ACCENT, "#F4F4F5", "#A1A1AA"];
 
 export default function PhysicsSkills() {
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -70,8 +71,8 @@ export default function PhysicsSkills() {
         restitution: 0.6,
         friction: 0.1,
         render: {
-          fillStyle: c === "#CCFF00" ? "#CCFF00" : "#0a0a0a",
-          strokeStyle: c === "#CCFF00" ? "transparent" : c,
+          fillStyle: c === ACCENT ? ACCENT : "#0a0a0a",
+          strokeStyle: c === ACCENT ? "transparent" : c,
           lineWidth: 1,
         },
         label: item,
@@ -146,7 +147,7 @@ export default function PhysicsSkills() {
         if (body.position.y > -100 && body.position.y < height + 100) {
           context.translate(body.position.x, body.position.y);
           context.rotate(body.angle);
-          context.fillStyle = body.render.fillStyle === "#CCFF00" ? "#050505" : "#F4F4F5";
+          context.fillStyle = body.render.fillStyle === ACCENT ? "#050505" : "#F4F4F5";
           context.fillText(body.label, 0, 0);
           context.rotate(-body.angle);
           context.translate(-body.position.x, -body.position.y);

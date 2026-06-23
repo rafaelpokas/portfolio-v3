@@ -62,7 +62,7 @@ export default function CertTimeline() {
         const xOffset = i % 2 === 0 ? 50 : -50;
         tl.from(card, { x: xOffset, opacity: 0, rotationY: i % 2 === 0 ? -10 : 10 }, 0.2);
         
-        tl.from(marker, { scale: 0, opacity: 0, backgroundColor: "#CCFF00" }, 0.4);
+        tl.from(marker, { scale: 0, opacity: 0, backgroundColor: "#FA7412" }, 0.4);
       });
     });
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 
 interface NavLinkProps {
   href: string;
@@ -30,12 +31,12 @@ export default function Navbar() {
   return (
     <nav
       aria-label="Navegação principal"
-      className="fixed top-0 left-0 right-0 py-6 px-6 md:px-10 flex justify-between items-center z-50 mix-blend-difference pointer-events-none"
+      className="fixed top-0 left-0 right-0 py-6 px-6 md:px-10 flex justify-between items-center z-50 pointer-events-none"
     >
-      <div className="font-display font-bold text-2xl -tracking-widest pointer-events-auto">RF_</div>
+      <div className="font-display font-bold text-2xl -tracking-widest pointer-events-auto mix-blend-difference">RF_</div>
 
       {/* Desktop nav links */}
-      <ul className="hidden md:flex gap-8 list-none pointer-events-auto">
+      <ul className="hidden md:flex gap-8 list-none pointer-events-auto mix-blend-difference">
         {navItems.map((item) => (
           <li key={item.href}>
             <NavLink href={item.href}>{item.label}</NavLink>
@@ -46,7 +47,7 @@ export default function Navbar() {
       {/* Mobile hamburger */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden pointer-events-auto p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
+        className="md:hidden pointer-events-auto p-2 min-w-[44px] min-h-[44px] flex items-center justify-center mix-blend-difference"
         aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
         aria-expanded={isOpen}
       >
@@ -74,11 +75,14 @@ export default function Navbar() {
             ))}
             <li>
               <a
-                href="/playground"
+                href="https://commet.pro"
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}
-                className="block py-4 text-sm tracking-widest uppercase border-b border-border-subtle text-accent"
+                className="flex items-center gap-2 py-4 text-sm tracking-widest uppercase border-b border-border-subtle text-accent font-semibold"
               >
-                Playground
+                Commet
+                <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
               </a>
             </li>
             <li>
@@ -102,14 +106,17 @@ export default function Navbar() {
       {/* Desktop CTAs */}
       <div className="hidden md:flex items-center gap-2 pointer-events-auto">
         <a
-          href="/playground"
-          aria-label="Acessar o Playground interativo"
-          className="bg-accent text-bg min-w-[44px] min-h-[44px] px-5 inline-flex items-center justify-center font-display text-xs font-bold tracking-wider hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_var(--color-border-subtle)] transition-transform opacity-70 hover:opacity-100"
+          href="https://commet.pro"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visitar o site da Commet"
+          className="bg-accent text-bg min-w-[44px] min-h-[44px] px-5 inline-flex items-center justify-center gap-1.5 font-display text-xs font-bold tracking-wider hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_var(--color-accent-deep)] transition-transform"
         >
-          PLAYGROUND
+          COMMET
+          <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
         </a>
         <a
-          href="mailto:rafapokas@hotmail.com"
+          href="mailto:rafael@commet.pro"
           aria-label="Enviar email de contato"
           className="bg-accent text-bg min-w-[44px] min-h-[44px] px-6 inline-flex items-center justify-center font-display text-xs font-bold tracking-wider hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_var(--color-border-subtle)] transition-transform"
         >
@@ -117,10 +124,10 @@ export default function Navbar() {
         </a>
       </div>
 
-      {/* Mobile: show only CONTACT when menu is closed (playground reachable from mobile menu) */}
+      {/* Mobile: show only CONTACT when menu is closed */}
       <div className="md:hidden pointer-events-auto">
         <a
-          href="mailto:rafapokas@hotmail.com"
+          href="mailto:rafael@commet.pro"
           aria-label="Enviar email de contato"
           className="bg-accent text-bg min-w-[44px] min-h-[44px] px-4 inline-flex items-center justify-center font-display text-xs font-bold tracking-wider"
         >

@@ -53,7 +53,7 @@ export default function Hero() {
 
       <div className="relative z-10 text-center max-w-[1200px]">
         <div className="inline-block border border-accent text-accent px-3 py-1 text-xs tracking-widest uppercase -skew-x-12 mb-6">
-          <span className="block skew-x-12 font-semibold">Product Designer</span>
+          <span className="block skew-x-12 font-semibold">Product Designer · Commet</span>
         </div>
         
         <h1 className="text-[clamp(3rem,8vw,9rem)] leading-[0.9] -tracking-wide mb-6 text-transparent [-webkit-text-stroke:1px_var(--color-text-main)]">

@@ -14,13 +14,13 @@ const syncopate = Syncopate({
 });
 
 export const metadata: Metadata = {
-  title: "Rafael França — Product Designer",
-  description: "Product Designer especializado em UX Research, Design Systems e CRO. Portfolio com certificações Google UX, Harvard CS50 e mais de 20 credenciais técnicas.",
-  keywords: ["Product Designer", "UX Design", "Design System", "CRO", "Portfolio", "Rafael França"],
+  title: "Rafael França — Product Designer · Commet",
+  description: "Product Designer e CPDO na Commet, especializado em UX Research, Design Systems e CRO. Portfolio com certificações Google UX, Harvard CS50 e mais de 20 credenciais técnicas.",
+  keywords: ["Product Designer", "UX Design", "Design System", "CRO", "Portfolio", "Rafael França", "Commet"],
   authors: [{ name: "Rafael França" }],
   openGraph: {
-    title: "Rafael França — Product Designer",
-    description: "Systems & Strategy — Design intencional, métricas e pesquisa transformados em interfaces que escalam.",
+    title: "Rafael França — Product Designer · Commet",
+    description: "Systems & Strategy — Design intencional, métricas e pesquisa transformados em interfaces que escalam. CPDO na Commet.",
     type: "website",
     locale: "pt_BR",
     siteName: "Rafael França Portfolio",
