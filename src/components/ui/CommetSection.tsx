@@ -63,17 +63,17 @@ export default function CommetSection() {
             <div className="absolute -bottom-px -right-px w-6 h-6 border-b-2 border-r-2 border-accent z-10" />
 
             <Image
-              src="/rafael-franca.jpg"
-              alt="Rafael França, CPDO da Commet"
-              width={1000}
-              height={1000}
-              className="w-full h-auto grayscale-[0.15] contrast-[1.05]"
+              src="/rafael-franca-profile.webp"
+              alt="Rafael França, founder da Commet"
+              width={1254}
+              height={1254}
+              className="w-full h-auto"
               priority={false}
             />
 
             {/* Caption chip */}
-            <div className="absolute bottom-3 left-3 bg-accent text-bg px-3 py-1 font-display text-[10px] font-bold tracking-widest uppercase">
-              Rafael França · cpdo
+            <div className="border-t border-border-subtle px-4 py-3 font-display text-[10px] font-bold tracking-widest uppercase text-accent">
+              Rafael França · Founder
             </div>
           </div>
         </div>
@@ -85,11 +85,11 @@ export default function CommetSection() {
           </div>
 
           <h2 className="commet-reveal text-4xl md:text-5xl mb-6">
-            CPDO na <span className="text-accent">Commet</span>
+            Founder &amp; CPDO na <span className="text-accent">Commet</span>
           </h2>
 
           <p className="commet-reveal text-text-muted mb-8">
-            Lidero produto e design na Commet — um studio de tecnologia, IA e
+            Fundei a Commet e lidero produto e design — um studio de tecnologia, IA e
             performance que constrói sites, software, automações e sistemas de
             crescimento para empresas B2B. O mesmo rigor de métricas e design
             intencional deste portfolio aplicado em escala.
